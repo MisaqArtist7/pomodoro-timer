@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="assets/style/output.css">
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+    <!-- Main App Container -->
+    <main class="min-h-screen flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-lg">
+            <!-- Header Section -->
+            <header class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight">Pomodoro</h1>
+                    <p class="text-sm text-slate-400 mt-1">Focus, work, and take meaningful breaks.</p>
+                </div>
+                <button id="settings-btn" type="button" aria-label="Open settings" class="w-10 h-10 flex items-center cursor-pointer justify-center rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition">⚙</button>
+            </header>
+
+            <!-- Timer Card Section -->
+            <section aria-label="Pomodoro timer" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+                <div class="flex justify-center mb-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800 text-sm font-medium text-slate-300">
+                        <span id="session-indicator" class="w-2 h-2 rounded-full bg-red-500"></span>
+                        <span id="session-type">Work</span>
+                    </div>
+                </div>
+
+                <div id="timer" class="text-center text-7xl sm:text-8xl font-bold tracking-tight tabular-nums text-white select-none" aria-live="polite" aria-label="Time remaining"></div>
+
+                <div class="flex items-center justify-center gap-3 mt-10">
+                    <button id="start-btn" type="button" class="min-w-32 px-6 py-3 rounded-xl cursor-pointer bg-white text-slate-950 font-semibold hover:bg-slate-200 active:scale-95 transition">Start</button>
+                    <button id="pause-btn" type="button" class="min-w-32 px-6 py-3 rounded-xl cursor-pointer bg-slate-800 text-white font-semibold hover:bg-slate-700 active:scale-95 transition">Pause</button>
+                    <button id="reset-btn" type="button" aria-label="Reset timer" class="w-12 h-12 flex items-center justify-center cursor-pointer rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white active:scale-95 transition">↻</button>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="grid grid-cols-2 gap-4 mt-4" aria-label="Session statistics">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                    <p class="text-sm text-slate-400">Completed</p>
+                    <p id="session-count" class="text-3xl font-bold mt-2"></p>
+                    <p class="text-xs text-slate-500 mt-1">work sessions</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                    <p class="text-sm text-slate-400">Current Cycle</p>
+                    <p id="cycle-count" class="text-3xl font-bold mt-2"></p>
+                    <p class="text-xs text-slate-500 mt-1">sessions</p>
+                </div>
+            </section>
+
+            <!-- Settings Panel -->
+            <section id="settings-panel" class="hidden mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-6" aria-label="Timer settings">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="font-semibold text-lg">Timer Settings</h2>
+                        <p class="text-sm text-slate-400 mt-1">Customize your intervals.</p>
+                    </div>
+                    <button id="close-settings-btn" type="button" aria-label="Close settings" class="w-9 h-9 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition">×</button>
+                </div>
+
+                <div class="mb-4">
+                    <label for="work-duration" class="block text-sm font-medium text-slate-300 mb-2">Work</label>
+                    <div class="relative">
+                        <input id="work-duration" type="number" min="1" max="120" value="25" class="w-full px-4 py-3 pr-16 bg-slate-800 border border-slate-700 rounded-xl text-white outline-none focus:border-slate-500 transition">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-500">min</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="short-break-duration" class="block text-sm font-medium text-slate-300 mb-2">Short Break</label>
+                    <div class="relative">
+                        <input id="short-break-duration" type="number" min="1" max="60" value="5" class="w-full px-4 py-3 pr-16 bg-slate-800 border border-slate-700 rounded-xl text-white outline-none focus:border-slate-500 transition">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-500">min</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="long-break-duration" class="block text-sm font-medium text-slate-300 mb-2">Long Break</label>
+                    <div class="relative">
+                        <input id="long-break-duration" type="number" min="1" max="120" value="15" class="w-full px-4 py-3 pr-16 bg-slate-800 border border-slate-700 rounded-xl text-white outline-none focus:border-slate-500 transition">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-500">min</span>
+                    </div>
+                </div>
+
+                <button id="save-settings-btn" type="button" class="w-full px-5 py-3 rounded-xl bg-white text-slate-950 font-semibold hover:bg-slate-200 active:scale-[0.98] transition">Save Settings</button>
+            </section>
+
+            <footer class="text-center mt-8">
+                <p class="text-xs text-slate-600">Pomodoro Timer</p>
+            </footer>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
